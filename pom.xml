@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ch.mfrey.thymeleaf.extras.cache</groupId>
+	<groupId>org.smyers.thymeleaf.extras.cache</groupId>
 	<artifactId>thymeleaf-cache-dialect</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.3-SNAPSHOT</version>
 	<name>Thymeleaf Cache Dialect</name>
 	<description>A dialect for Thymeleaf that allows you to do partial page caching.
 
@@ -36,6 +36,12 @@ Working with Thymeleaf 2.1.0+ (2.1.0.RELEASE and its dependencies included)</des
 			<roles>
 				<role>Project Admin</role>
 				<role>Lead Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Michael Smyers</name>
+			<roles>
+				<role>Tweaker</role>
 			</roles>
 		</developer>
 	</developers>
