@@ -2,25 +2,186 @@ package ch.mfrey.thymeleaf.extras.cache;
 
 import org.thymeleaf.Arguments;
 import org.thymeleaf.Configuration;
+import org.thymeleaf.dom.Element;
+import org.thymeleaf.dom.Macro;
 import org.thymeleaf.standard.expression.IStandardExpression;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressions;
+
+import java.util.Collection;
+import java.util.List;
 
 public class ExpressionSupport {
 
 	public static Object getEvaluatedAttributeValue(final Arguments arguments, final String attributeValue) {
 		final Configuration configuration = arguments.getConfiguration();
 		final IStandardExpressionParser expressionParser = StandardExpressions.getExpressionParser(configuration);
-
 		final IStandardExpression expression = expressionParser.parseExpression(configuration, arguments, attributeValue);
 
-		final Object result = expression.execute(configuration, arguments);
-		return result;
+		return expression.execute(configuration, arguments);
 	}
 
 	public static String getEvaluatedAttributeValueAsString(final Arguments arguments, final String attributeValue) {
-		Object result = getEvaluatedAttributeValue(arguments, attributeValue);
-		return (result == null ? "" : result.toString());
+		return defaultString(toString(getEvaluatedAttributeValue(arguments, attributeValue)));
 	}
 
+	public static String defaultString(String value) {
+		return defaultString(value, "");
+	}
+
+	public static String defaultStringIfEmpty(String value, String defaultValue) {
+		if (isNullOrEmpty(value)) {
+			return defaultValue;
+		}
+
+		return value;
+	}
+
+	public static String defaultString(String value, String defaultValue) {
+		if (null == value) {
+			return defaultValue;
+		}
+
+		return value;
+	}
+
+	public static String toString(Object object) {
+		if (null == object) {
+			return null;
+		}
+
+		return object.toString();
+	}
+
+	public static boolean isNullOrEmpty(String value) {
+		return (null == value) || (value.isEmpty());
+	}
+
+	public static String takeAttribute(Element element, String attributeName) {
+		String result = element.getAttributeValue(attributeName);
+
+		{
+			element.removeAttribute(attributeName);
+		}
+
+		return result;
+	}
+
+	public static boolean isInteger(String string) {
+		if (isNullOrEmpty(string)) {
+			return false;
+		}
+
+		// http://stackoverflow.com/questions/237159/whats-the-best-way-to-check-to-see-if-a-string-represents-an-integer-in-java
+		// Difficult to read, but extremely fast "isNumeric" check.
+		// Added max-length check to prevent overflow: 2147483647
+		int length = string.length();
+
+		int i = 0;
+		if (string.charAt(0) == '-') {
+			if (length == 1 || length > 11) {
+				// Either only a - sign, or too large for an integer.
+				return false;
+			}
+			i = 1;
+		} else {
+			if (length > 10) {
+				// Too large for an int.
+				return false;
+			}
+		}
+		for (; i < length; i++) {
+			char c = string.charAt(i);
+			if (c <= '/' || c >= ':') {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Return the first item IF-AND-ONLY-IF it is the only item.
+	 *
+	 * @param list
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> T optSingle(List<T> list) {
+		if (null == list || list.size() != 1) {
+			return null;
+		}
+
+		try {
+			return list.get(0);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+
+	public static boolean isNullOrEmpty(Collection<?> collection) {
+		return collection == null || collection.isEmpty();
+	}
+
+	public static <K, V> V optCast(K object, Class<V> clazz) {
+		if (null == object) {
+			return null;
+		}
+
+		if (clazz.isAssignableFrom(object.getClass())) {
+			return clazz.cast(object);
+		}
+
+		return null;
+	}
+
+	public static int getInteger(String string, int defaultValue) {
+		if (!isInteger(string)) {
+			return defaultValue;
+		}
+
+		// Should not need to catch an exception, since we already determined it is safe.
+		// The isInteger is faster than relying on the NumberFormatException
+		return Integer.parseInt(string);
+	}
+
+	public static Integer optInteger(String string) {
+		if (isNullOrEmpty(string)) {
+			return null;
+		}
+
+		try {
+			// Set your JVM settings appropriately to ensure the Integer is cached appropriately.
+			//	http://stackoverflow.com/questions/15052216/how-large-is-the-integer-cache
+			// -Djava.lang.Integer.IntegerCache.high=<size>
+			// -XX:AutoBoxCacheMax=<size>
+			// Java 7+
+			return Integer.valueOf(string);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+
+	public static String takeAndResolveArgument(Arguments arguments, Element element, String attributeName) {
+		// This attribute name will be "name" because our constructor declared this attribute was ours.
+		// In the actual template, it will be prefixed with our dialect prefix (probably 'cache').
+		// The resulting attribute you see in the template will be "cache:$name"
+		final String attributeValue = ExpressionSupport.takeAttribute(element, attributeName);
+		// The raw 'attributeValue' might be a complex Thymeleaf expression.
+		// Resolve it.
+		return ExpressionSupport.getEvaluatedAttributeValueAsString(arguments, attributeValue);
+	}
+
+	public static void replace(Element element, Macro macro) {
+		element.clearChildren();
+		element.getParent().insertAfter(element, macro);
+		element.getParent().removeChild(element);
+	}
+
+	public static Element div(String attributeName, String attributeValue) {
+		Element element = new Element("div");
+
+		element.setAttribute(attributeName, attributeValue);
+
+		return element;
+	}
 }
