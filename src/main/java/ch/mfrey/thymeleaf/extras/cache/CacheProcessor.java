@@ -54,7 +54,7 @@ public class CacheProcessor extends AbstractAttrProcessor {
 			String ttlValue = element.getAttributeValue(CACHE_TTL);
 			if (ttlValue != null) {
 				ttlValue = ExpressionSupport.getEvaluatedAttributeValueAsString(arguments, ttlValue);
-				if (ttlValue == "") {
+				if ("".equals(ttlValue)) {
 					ttlValue = null;
 				} else {
 					cacheTTLs = Integer.parseInt(ttlValue);
