@@ -60,7 +60,7 @@ Working with Thymeleaf 2.1.0+ (2.1.0.RELEASE and its dependencies included)</des
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf</artifactId>
-			<version>2.1.0.RELEASE</version>
+			<version>2.1.4.RELEASE</version>
 		</dependency>
 	</dependencies>
 
