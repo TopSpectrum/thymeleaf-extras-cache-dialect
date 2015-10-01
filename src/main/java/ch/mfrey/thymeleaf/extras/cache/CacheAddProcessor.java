@@ -1,67 +1,43 @@
 package ch.mfrey.thymeleaf.extras.cache;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Collections;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Macro;
 import org.thymeleaf.dom.NestableNode;
-import org.thymeleaf.dom.Node;
 import org.thymeleaf.exceptions.ConfigurationException;
 import org.thymeleaf.exceptions.TemplateOutputException;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.attr.AbstractAttrProcessor;
-import org.thymeleaf.templatemode.ITemplateModeHandler;
 import org.thymeleaf.templatewriter.AbstractGeneralTemplateWriter;
-import org.thymeleaf.templatewriter.ITemplateWriter;
 
-public class CacheAddProcessor extends AbstractAttrProcessor {
-	public static final Logger log = LoggerFactory.getLogger(CacheAddProcessor.class);
+import java.io.IOException;
+import java.io.StringWriter;
 
-	public CacheAddProcessor() {
-		super("add");
-	}
+public class CacheAddProcessor extends AbstractCacheProcessor {
 
-	@Override
-	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
-		String cacheName = element.getAttributeValue(attributeName);
-		element.removeAttribute(attributeName);
-		
-		log.debug("Caching element {}", cacheName);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CacheAddProcessor.class);
 
-		String templateMode = arguments.getTemplateResolution().getTemplateMode();
+    public CacheAddProcessor(StandardCacheManager cacheManager) {
+        super(cacheManager, "add");
+    }
 
-		final ITemplateModeHandler templateModeHandler = arguments.getConfiguration().getTemplateModeHandler(templateMode);
-		final ITemplateWriter templateWriter = templateModeHandler.getTemplateWriter();
+    @Override
+    protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
+        final String cacheName = ExpressionSupport.takeAttribute(element, attributeName);
 
-		if (templateWriter == null) {
-			throw new ConfigurationException("No template writer defined for template mode \"" + templateMode + "\"");
-		} else if (!AbstractGeneralTemplateWriter.class.isAssignableFrom(templateWriter.getClass())) {
-			throw new ConfigurationException("The template writer defined for template mode \"" + templateMode
-					+ "\" is not an AbstractGeneralTemplateWriter");
-		}
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Caching element {}", cacheName);
+        }
 
-		StringWriter writer = new StringWriter();
-		try {
-			NestableNode parent = element.getParent();
-			parent.removeChild(element);
-			((AbstractGeneralTemplateWriter) templateWriter).writeNode(arguments, writer, parent);
+        final NestableNode parent = ExpressionSupport.takeChildReturnParent(element);
 
-			Node content = new Macro(writer.toString());
-			CacheManager.INSTANCE.put(arguments, cacheName, Collections.singletonList(content));
-		} catch (IOException e) {
-			throw new TemplateOutputException("Error during creation of output", e);
-		}
-		return ProcessorResult.OK;
-	}
+        final String fragment = ExpressionSupport.writeFragmentOrFail(arguments, parent);
 
-	@Override
-	public int getPrecedence() {
-		return 10;
-	}
+        cacheManager.put(arguments, cacheName, new Macro(fragment));
+
+        return ProcessorResult.OK;
+    }
+
 
 }

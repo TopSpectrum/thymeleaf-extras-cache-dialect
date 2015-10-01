@@ -5,11 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Macro;
-import org.thymeleaf.dom.Node;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.attr.AbstractAttrProcessor;
-
-import java.util.List;
 
 /**
  * The class responsible for replacing the element by a cached version if such
@@ -26,15 +22,14 @@ import java.util.List;
  *
  * @author Martin Frey
  */
-public class CacheProcessor extends AbstractAttrProcessor {
+public class CacheProcessor extends AbstractCacheProcessor {
 
     private static final String CACHE_TTL = "cache:ttl";
 
-    public static final Logger log = LoggerFactory.getLogger(CacheProcessor.class);
-    public static final int PRECEDENCE = 10;
+    public static final Logger LOGGER = LoggerFactory.getLogger(CacheProcessor.class);
 
-    public CacheProcessor() {
-        super("name");
+    public CacheProcessor(StandardCacheManager cacheManager) {
+        super(cacheManager, "name");
     }
 
     @Override
@@ -42,7 +37,9 @@ public class CacheProcessor extends AbstractAttrProcessor {
         final String cacheName = ExpressionSupport.takeAndResolveArgument(arguments, element, attributeName);
 
         if (ExpressionSupport.isNullOrEmpty(cacheName)) {
-            log.debug("Cache name not resolvable: {}", attributeName);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Cache name not resolvable: {}", attributeName);
+            }
 
             return ProcessorResult.OK;
         }
@@ -54,13 +51,17 @@ public class CacheProcessor extends AbstractAttrProcessor {
         Macro macro = getCachedElement(arguments, element, cacheName);
 
         if (null != macro) {
-            log.debug("Cache found {}. Replacing element.", cacheName);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Cache found {}. Replacing element.", cacheName);
+            }
 
             // The object is the cached string representation.
             // We are taking out the complex template and returning a static 'pre-compiled' string.
             ExpressionSupport.replace(element, macro);
         } else {
-            log.debug("Cache not found. Adding add processor element.");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Cache not found. Adding add processor element.");
+            }
 
             element.addChild(ExpressionSupport.div("cache:add", cacheName));
         }
@@ -71,17 +72,11 @@ public class CacheProcessor extends AbstractAttrProcessor {
     private Macro getCachedElement(Arguments arguments, Element element, String cacheName) {
         int cacheTTLs = ExpressionSupport.getInteger(ExpressionSupport.takeAndResolveArgument(arguments, element, CACHE_TTL), 0);
 
-        Node node = ExpressionSupport.optSingle(fetchFromCache(arguments, cacheName, cacheTTLs));
-
-        return ExpressionSupport.optCast(node, Macro.class);
+        return fetchFromCache(arguments, cacheName, cacheTTLs);
     }
 
-    private List<Node> fetchFromCache(Arguments arguments, String cacheName, int cacheTTLs) {
-        return CacheManager.INSTANCE.get(arguments, cacheName, cacheTTLs);
+    private Macro fetchFromCache(Arguments arguments, String cacheName, int cacheTTLs) {
+        return cacheManager.get(arguments, cacheName, cacheTTLs);
     }
 
-    @Override
-    public int getPrecedence() {
-        return PRECEDENCE;
-    }
 }

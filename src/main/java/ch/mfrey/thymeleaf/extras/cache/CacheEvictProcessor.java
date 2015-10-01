@@ -5,35 +5,29 @@ import org.slf4j.LoggerFactory;
 import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.processor.attr.AbstractAttrProcessor;
 
-public class CacheEvictProcessor extends AbstractAttrProcessor {
-	public static final Logger log = LoggerFactory.getLogger(CacheEvictProcessor.class);
-	public static final int PRECEDENCE = 10;
+public class CacheEvictProcessor extends AbstractCacheProcessor {
 
-	public CacheEvictProcessor() {
-		super("evict");
+	public static final Logger LOGGER = LoggerFactory.getLogger(CacheEvictProcessor.class);
+
+	public CacheEvictProcessor(StandardCacheManager cacheManager) {
+		super(cacheManager, "evict");
+
+		setPrecedence(CacheProcessor.PRECEDENCE - 1);
 	}
 
 	@Override
 	protected ProcessorResult processAttribute(Arguments arguments, Element element, String attributeName) {
-		final String attributeValue = element.getAttributeValue(attributeName);
+		final String cacheName = ExpressionSupport.takeAndResolveArgument(arguments, element, attributeName);
 
-		element.removeAttribute(attributeName);
-
-		final String cacheName = ExpressionSupport.getEvaluatedAttributeValueAsString(arguments, attributeValue);
-		if (cacheName == "") {
+		if (ExpressionSupport.isNullOrEmpty(cacheName)) {
+			// Nothing to evict.
 			return ProcessorResult.OK;
 		}
 
-		CacheManager.INSTANCE.evict(arguments, cacheName);
+		cacheManager.evict(arguments, cacheName);
 
 		return ProcessorResult.OK;
-	}
-
-	@Override
-	public int getPrecedence() {
-		return CacheProcessor.PRECEDENCE - 1; // Run just before the CacheProcessor
 	}
 
 }

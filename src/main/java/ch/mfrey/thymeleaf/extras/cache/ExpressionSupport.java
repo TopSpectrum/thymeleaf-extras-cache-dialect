@@ -4,10 +4,18 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.Configuration;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Macro;
+import org.thymeleaf.dom.NestableNode;
+import org.thymeleaf.exceptions.ConfigurationException;
+import org.thymeleaf.exceptions.TemplateOutputException;
 import org.thymeleaf.standard.expression.IStandardExpression;
 import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressions;
+import org.thymeleaf.templatemode.ITemplateModeHandler;
+import org.thymeleaf.templatewriter.AbstractGeneralTemplateWriter;
+import org.thymeleaf.templatewriter.ITemplateWriter;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.List;
 
@@ -183,5 +191,60 @@ public class ExpressionSupport {
 		element.setAttribute(attributeName, attributeValue);
 
 		return element;
+	}
+
+	public static boolean isNullOrZero(Integer i) {
+		return null == i || i.equals(0);
+	}
+
+	public static ITemplateWriter getTemplateWriter(Arguments arguments) {
+		final String templateMode = arguments.getTemplateResolution().getTemplateMode();
+		final ITemplateModeHandler templateModeHandler = arguments.getConfiguration().getTemplateModeHandler(templateMode);
+
+		return templateModeHandler.getTemplateWriter();
+	}
+
+	public static NestableNode takeChildReturnParent(Element element) {
+		NestableNode parent = element.getParent();
+
+		{
+			parent.removeChild(element);
+		}
+
+		return parent;
+	}
+
+
+	public static String writeFragmentOrFail(Arguments arguments, NestableNode parent) {
+		final AbstractGeneralTemplateWriter templateWriter = getWriterOrFail(arguments);
+		final StringWriter writer = new StringWriter();
+
+		{
+			try {
+				templateWriter.writeNode(arguments, writer, parent);
+			} catch (IOException e) {
+				throw new TemplateOutputException("Error during creation of output", e);
+			}
+		}
+
+		return writer.toString();
+	}
+
+	public static AbstractGeneralTemplateWriter getWriterOrFail(Arguments arguments) {
+		final AbstractGeneralTemplateWriter templateWriter = ExpressionSupport.optCast(ExpressionSupport.getTemplateWriter(arguments), AbstractGeneralTemplateWriter.class);
+
+		if (templateWriter == null) {
+			throw new ConfigurationException("No template writer defined, or is of wrong type.");
+		}
+
+		return templateWriter;
+	}
+
+	public static Integer defaultInteger(Integer key) {
+		if (null == key) {
+			return Integer.valueOf(0);
+		}
+
+		return key;
 	}
 }

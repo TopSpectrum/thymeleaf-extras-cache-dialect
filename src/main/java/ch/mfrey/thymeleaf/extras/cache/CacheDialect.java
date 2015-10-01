@@ -7,9 +7,11 @@ import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.processor.IProcessor;
 
 public class CacheDialect extends AbstractDialect {
-	public static final String DIALECT_NAMESPACE = "http://www.thymeleaf.org/extras/cache";
 
+	public static final String DIALECT_NAMESPACE = "http://www.thymeleaf.org/extras/cache";
 	public static final String DIALECT_PREFIX = "cache";
+
+	private StandardCacheManager cacheManager;
 
 	/**
 	 * {@inheritDoc}
@@ -17,10 +19,11 @@ public class CacheDialect extends AbstractDialect {
 	@Override
 	public Set<IProcessor> getProcessors() {
 		HashSet<IProcessor> processors = new HashSet<IProcessor>();
-		processors.add(new CacheProcessor());
-		processors.add(new CacheAddProcessor());
 
-		processors.add(new CacheEvictProcessor());
+		processors.add(new CacheProcessor(cacheManager));
+		processors.add(new CacheAddProcessor(cacheManager));
+		processors.add(new CacheEvictProcessor(cacheManager));
+
 		return processors;
 	}
 
@@ -32,4 +35,11 @@ public class CacheDialect extends AbstractDialect {
 		return false;
 	}
 
+	public StandardCacheManager getCacheManager() {
+		return cacheManager;
+	}
+
+	public void setCacheManager(StandardCacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
 }

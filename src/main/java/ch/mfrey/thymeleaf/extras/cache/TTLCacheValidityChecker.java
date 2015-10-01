@@ -5,12 +5,9 @@ import java.util.List;
 import org.thymeleaf.cache.ICacheEntryValidityChecker;
 import org.thymeleaf.dom.Node;
 
-class TTLCacheValidityChecker implements ICacheEntryValidityChecker<String, List<Node>> {
+public class TTLCacheValidityChecker implements ICacheEntryValidityChecker<String, List<Node>> {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1571820788337791209L;
 
 	private final int cacheTTLs;
 
@@ -24,4 +21,7 @@ class TTLCacheValidityChecker implements ICacheEntryValidityChecker<String, List
 		return (currentTimeInMillis < entryCreationTimestamp + this.cacheTTLs * 1000);
 	}
 
+	public int getCacheTTLs() {
+		return cacheTTLs;
+	}
 }
