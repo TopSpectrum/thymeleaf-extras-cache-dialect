@@ -11,13 +11,17 @@ public class CacheDialect extends AbstractDialect {
 	public static final String DIALECT_NAMESPACE = "http://www.thymeleaf.org/extras/cache";
 	public static final String DIALECT_PREFIX = "cache";
 
-	private StandardCacheManager cacheManager;
+	private ICacheManager cacheManager;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Set<IProcessor> getProcessors() {
+        if (null == cacheManager) {
+            throw new IllegalStateException("CacheManager cannot be null");
+        }
+
 		HashSet<IProcessor> processors = new HashSet<IProcessor>();
 
 		processors.add(new CacheProcessor(cacheManager));
@@ -35,11 +39,11 @@ public class CacheDialect extends AbstractDialect {
 		return false;
 	}
 
-	public StandardCacheManager getCacheManager() {
+	public ICacheManager getCacheManager() {
 		return cacheManager;
 	}
 
-	public void setCacheManager(StandardCacheManager cacheManager) {
+	public void setCacheManager(ICacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
 }

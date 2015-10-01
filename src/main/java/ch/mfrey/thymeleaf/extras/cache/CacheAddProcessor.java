@@ -18,7 +18,7 @@ public class CacheAddProcessor extends AbstractCacheProcessor {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CacheAddProcessor.class);
 
-    public CacheAddProcessor(StandardCacheManager cacheManager) {
+    public CacheAddProcessor(ICacheManager cacheManager) {
         super(cacheManager, "add");
     }
 

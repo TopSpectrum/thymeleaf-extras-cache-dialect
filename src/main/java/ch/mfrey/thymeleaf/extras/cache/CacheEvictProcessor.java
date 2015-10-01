@@ -10,7 +10,7 @@ public class CacheEvictProcessor extends AbstractCacheProcessor {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(CacheEvictProcessor.class);
 
-	public CacheEvictProcessor(StandardCacheManager cacheManager) {
+	public CacheEvictProcessor(ICacheManager cacheManager) {
 		super(cacheManager, "evict");
 
 		setPrecedence(CacheProcessor.PRECEDENCE - 1);
