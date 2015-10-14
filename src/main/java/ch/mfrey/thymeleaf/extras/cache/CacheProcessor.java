@@ -70,7 +70,7 @@ public class CacheProcessor extends AbstractCacheProcessor {
     }
 
     private Macro getCachedElement(Arguments arguments, Element element, String cacheName) {
-        int cacheTTLs = ExpressionSupport.getInteger(ExpressionSupport.takeAndResolveArgument(arguments, element, CACHE_TTL), 0);
+        int cacheTTLs = ExpressionSupport.getInteger(ExpressionSupport.takeAndResolveArgument(arguments, element, CACHE_TTL), Integer.MAX_VALUE);
 
         return fetchFromCache(arguments, cacheName, cacheTTLs);
     }

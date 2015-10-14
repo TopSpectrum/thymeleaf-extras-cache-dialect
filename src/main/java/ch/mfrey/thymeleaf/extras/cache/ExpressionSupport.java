@@ -13,6 +13,7 @@ import org.thymeleaf.standard.expression.StandardExpressions;
 import org.thymeleaf.templatemode.ITemplateModeHandler;
 import org.thymeleaf.templatewriter.AbstractGeneralTemplateWriter;
 import org.thymeleaf.templatewriter.ITemplateWriter;
+import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -22,6 +23,10 @@ import java.util.List;
 public class ExpressionSupport {
 
 	public static Object getEvaluatedAttributeValue(final Arguments arguments, final String attributeValue) {
+        if (StringUtils.isEmpty(attributeValue)) {
+            return null;
+        }
+
 		final Configuration configuration = arguments.getConfiguration();
 		final IStandardExpressionParser expressionParser = StandardExpressions.getExpressionParser(configuration);
 		final IStandardExpression expression = expressionParser.parseExpression(configuration, arguments, attributeValue);
@@ -176,7 +181,7 @@ public class ExpressionSupport {
 		final String attributeValue = ExpressionSupport.takeAttribute(element, attributeName);
 		// The raw 'attributeValue' might be a complex Thymeleaf expression.
 		// Resolve it.
-		return ExpressionSupport.getEvaluatedAttributeValueAsString(arguments, attributeValue);
+        return ExpressionSupport.getEvaluatedAttributeValueAsString(arguments, attributeValue);
 	}
 
 	public static void replace(Element element, Macro macro) {
