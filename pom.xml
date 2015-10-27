@@ -17,17 +17,12 @@ Working with Thymeleaf 2.1.0+ (2.1.0.RELEASE and its dependencies included)</des
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
 
 	<scm>
-		<connection>scm:git:git@github.com:Antibrumm/thymeleaf-extras-cache-dialect.git</connection>
-		<url>https://github.com/Antibrumm/thymeleaf-extras-cache-dialect.git</url>
-		<developerConnection>scm:git:git@github.com:Antibrumm/thymeleaf-extras-cache-dialect.git</developerConnection>
+
+		<connection>scm:git:git@github.com:TopSpectrum/thymeleaf-extras-cache-dialect.git</connection>
+		<url>https://github.com/TopSpectrum/thymeleaf-extras-cache-dialect.git</url>
+		<developerConnection>scm:git:git@github.com:TopSpectrum/thymeleaf-extras-cache-dialect.git</developerConnection>
 	</scm>
 
 	<developers>
@@ -48,7 +43,7 @@ Working with Thymeleaf 2.1.0+ (2.1.0.RELEASE and its dependencies included)</des
 
 
 	<issueManagement>
-		<url>https://github.com/Antibrumm/thymeleaf-extras-cache-dialect</url>
+		<url>https://github.com/TopSpectrum/thymeleaf-extras-cache-dialect</url>
 	</issueManagement>
 
 	<properties>
