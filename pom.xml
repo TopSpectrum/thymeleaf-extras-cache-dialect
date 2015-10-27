@@ -24,6 +24,19 @@ Working with Thymeleaf 2.1.0+ (2.1.0.RELEASE and its dependencies included)</des
 		<developerConnection>scm:git:git@github.com:TopSpectrum/thymeleaf-extras-cache-dialect.git</developerConnection>
 	</scm>
 
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>Top Level Spectrum-releases</name>
+			<url>http://artifactory.topspectrum.com/artifactory/libs-release-local</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Top Level Spectrum-snapshots</name>
+			<url>http://artifactory.topspectrum.com/artifactory/libs-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<developers>
 		<developer>
 			<name>Martin Frey</name>
