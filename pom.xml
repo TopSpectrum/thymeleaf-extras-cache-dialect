@@ -19,7 +19,6 @@ Working with Thymeleaf 2.1.0+ (2.1.0.RELEASE and its dependencies included)</des
 	</licenses>
 
 	<scm>
-
 		<connection>scm:git:git@github.com:TopSpectrum/thymeleaf-extras-cache-dialect.git</connection>
 		<url>https://github.com/TopSpectrum/thymeleaf-extras-cache-dialect.git</url>
 		<developerConnection>scm:git:git@github.com:TopSpectrum/thymeleaf-extras-cache-dialect.git</developerConnection>
