@@ -29,20 +29,41 @@ public class StandardCacheManager extends AbstractCacheManager {
         getCache().put(getCacheName(cacheName, templateMode, locale), content);
     }
 
-    public Macro get(final Arguments arguments, final String cacheName, final int cacheTTLs) {
-        List<Node> nodes = get(
+    public Macro getViaTTL(final Arguments arguments, final String cacheName, final int cacheTTLs) {
+        List<Node> nodes = getViaTTL(
                 cacheName,
                 arguments.getTemplateResolution().getTemplateMode(),
                 arguments.getContext().getLocale(),
                 cacheTTLs);
 
         return ExpressionSupport.optCast(
-                ExpressionSupport.optSingle(nodes), Macro.class
+                ExpressionSupport.optSingle(nodes),
+                Macro.class
         );
     }
 
-    public List<Node> get(final String cacheName, final String templateMode, final Locale locale, final Integer cacheTTLs) {
-        return getCache().get(getCacheName(cacheName, templateMode, locale), getValidityChecker(cacheTTLs));
+    @Override
+    public Macro getViaTimestamp(Arguments arguments, String cacheName, long timestamp) {
+        List<Node> nodes = getViaTimestamp(
+                cacheName,
+                arguments.getTemplateResolution().getTemplateMode(),
+                arguments.getContext().getLocale(),
+                timestamp);
+
+        return ExpressionSupport.optCast(
+                ExpressionSupport.optSingle(nodes),
+                Macro.class
+        );
+    }
+
+    public List<Node> getViaTTL(final String cacheName, final String templateMode, final Locale locale, final Integer cacheTTLs) {
+        // TODO: Object pooling here with validity checker.
+        return getCache().get(getCacheName(cacheName, templateMode, locale), getValidityCheckerViaTTL(cacheTTLs));
+    }
+
+    public List<Node> getViaTimestamp(final String cacheName, final String templateMode, final Locale locale, final Long timestamp) {
+        // TODO: Object pooling here with validity checker.
+        return getCache().get(getCacheName(cacheName, templateMode, locale), getValidityCheckerViaTimestamp(timestamp));
     }
 
     public void evict(final Arguments arguments, final String cacheName) {

@@ -23,7 +23,9 @@ public interface ICacheManager {
 
     void put(Arguments arguments, String cacheName, Macro macro);
 
-    Macro get(Arguments arguments, String cacheName, int cacheTTLs);
+    Macro getViaTTL(Arguments arguments, String cacheName, int cacheTTLs);
+
+    Macro getViaTimestamp(Arguments arguments, String cacheName, long timestamp);
 
     void evict(Arguments arguments, String cacheName);
 

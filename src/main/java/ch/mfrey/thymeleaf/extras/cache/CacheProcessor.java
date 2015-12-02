@@ -25,6 +25,7 @@ import org.thymeleaf.processor.ProcessorResult;
 public class CacheProcessor extends AbstractCacheProcessor {
 
     private static final String CACHE_TTL = "cache:ttl";
+    private static final String CACHE_TIMESTAMP = "cache:timestamp";
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CacheProcessor.class);
 
@@ -71,12 +72,23 @@ public class CacheProcessor extends AbstractCacheProcessor {
 
     private Macro getCachedElement(Arguments arguments, Element element, String cacheName) {
         int cacheTTLs = ExpressionSupport.getInteger(ExpressionSupport.takeAndResolveArgument(arguments, element, CACHE_TTL), Integer.MAX_VALUE);
+        Long cacheTimestamp = ExpressionSupport.optLong(ExpressionSupport.takeAndResolveArgumentAsObject(arguments, element, CACHE_TIMESTAMP));
 
-        return fetchFromCache(arguments, cacheName, cacheTTLs);
+//        if (null != cacheTimestamp) {
+//            LOGGER.debug("test");
+//        }
+
+        return fetchFromCache(arguments, cacheName, cacheTTLs, cacheTimestamp);
     }
 
-    private Macro fetchFromCache(Arguments arguments, String cacheName, int cacheTTLs) {
-        return cacheManager.get(arguments, cacheName, cacheTTLs);
+    private Macro fetchFromCache(Arguments arguments, String cacheName, int cacheTTLs, Long cacheTimestamp) {
+
+        // Check Timestamp
+        if (null != cacheTimestamp) {
+            return cacheManager.getViaTimestamp(arguments, cacheName, cacheTimestamp);
+        } else {
+            return cacheManager.getViaTTL(arguments, cacheName, cacheTTLs);
+        }
     }
 
 }

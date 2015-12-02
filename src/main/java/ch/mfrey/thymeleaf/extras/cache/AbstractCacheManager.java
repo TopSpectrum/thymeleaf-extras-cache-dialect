@@ -34,12 +34,20 @@ public abstract class AbstractCacheManager implements ICacheManager {
                 }
             });
 
-    protected ICacheEntryValidityChecker<String, List<Node>> getValidityChecker(Integer ttl) {
+    protected ICacheEntryValidityChecker<String, List<Node>> getValidityCheckerViaTTL(Integer ttl) {
         if (ExpressionSupport.isNullOrZero(ttl)) {
             return null;
         }
 
         return validityCheckerCache.getUnchecked(ttl);
+    }
+
+    protected ICacheEntryValidityChecker<String, List<Node>> getValidityCheckerViaTimestamp(Long timestamp) {
+        if (ExpressionSupport.isNullOrZero(timestamp)) {
+            return null;
+        }
+
+        return new TimestampValidityChecker(timestamp);
     }
 
     protected String getCacheName(final String name, final String templateMode, final Locale locale) {

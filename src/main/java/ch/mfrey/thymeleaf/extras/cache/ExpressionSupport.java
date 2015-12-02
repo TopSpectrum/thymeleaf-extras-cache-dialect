@@ -18,6 +18,7 @@ import org.thymeleaf.util.StringUtils;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 public class ExpressionSupport {
@@ -157,6 +158,41 @@ public class ExpressionSupport {
 		return Integer.parseInt(string);
 	}
 
+	public static Long optLong(Object object) {
+		if (null == object) {
+			return null;
+		}
+
+		if (object instanceof Date) {
+			return ((Date)object).getTime();
+		}
+
+		if (object instanceof Long) {
+			return (Long) object;
+		}
+
+		return optLong((String.valueOf(object)));
+	}
+
+	public static Long optLong(String string) {
+		if (isNullOrEmpty(string)) {
+			return null;
+		}
+
+		try {
+			// TODO: check isNumeric() on the string
+
+			// Set your JVM settings appropriately to ensure the Integer is cached appropriately.
+			//	http://stackoverflow.com/questions/15052216/how-large-is-the-integer-cache
+			// -Djava.lang.Integer.IntegerCache.high=<size>
+			// -XX:AutoBoxCacheMax=<size>
+			// Java 7+
+			return Long.valueOf(string);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+
 	public static Integer optInteger(String string) {
 		if (isNullOrEmpty(string)) {
 			return null;
@@ -172,6 +208,12 @@ public class ExpressionSupport {
 		} catch (NumberFormatException e) {
 			return null;
 		}
+	}
+
+	public static Object takeAndResolveArgumentAsObject(Arguments arguments, Element element, String attributeName) {
+		final String attributeValue = ExpressionSupport.takeAttribute(element, attributeName);
+
+		return getEvaluatedAttributeValue(arguments, attributeValue);
 	}
 
 	public static String takeAndResolveArgument(Arguments arguments, Element element, String attributeName) {
@@ -200,6 +242,10 @@ public class ExpressionSupport {
 
 	public static boolean isNullOrZero(Integer i) {
 		return null == i || i.equals(0);
+	}
+
+	public static boolean isNullOrZero(Long i) {
+		return null == i || i.equals((long)0);
 	}
 
 	public static ITemplateWriter getTemplateWriter(Arguments arguments) {
@@ -251,5 +297,10 @@ public class ExpressionSupport {
 		}
 
 		return key;
+	}
+
+
+	public static Long optDateOrLong(String s) {
+		return null;
 	}
 }
