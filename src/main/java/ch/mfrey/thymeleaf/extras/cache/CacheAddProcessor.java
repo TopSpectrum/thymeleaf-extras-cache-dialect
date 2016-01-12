@@ -6,13 +6,7 @@ import org.thymeleaf.Arguments;
 import org.thymeleaf.dom.Element;
 import org.thymeleaf.dom.Macro;
 import org.thymeleaf.dom.NestableNode;
-import org.thymeleaf.exceptions.ConfigurationException;
-import org.thymeleaf.exceptions.TemplateOutputException;
 import org.thymeleaf.processor.ProcessorResult;
-import org.thymeleaf.templatewriter.AbstractGeneralTemplateWriter;
-
-import java.io.IOException;
-import java.io.StringWriter;
 
 public class CacheAddProcessor extends AbstractCacheProcessor {
 
@@ -38,6 +32,4 @@ public class CacheAddProcessor extends AbstractCacheProcessor {
 
         return ProcessorResult.OK;
     }
-
-
 }
