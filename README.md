@@ -12,8 +12,8 @@ This dialect will cache the resulting output of the element it is declared on an
 Documentation
 -------------
 
-* http://docs.corp.topspectrum.com/dev/thymeleaf-extras-cache-dialect/{version}/javadocs/index.html
-* http://docs.corp.topspectrum.com/dev/thymeleaf-extras-cache-dialect/1.3-SNAPSHOT/javadocs/index.html
+* http://docs.corp.topspectrum.com/dev/thymeleaf-cache-dialect/{version}/javadocs/index.html
+* http://docs.corp.topspectrum.com/dev/thymeleaf-cache-dialect/1.3-SNAPSHOT/javadocs/index.html
 
 Requirements
 ------------
