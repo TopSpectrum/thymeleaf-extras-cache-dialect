@@ -1,181 +1,201 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-   <groupId>com.topspectrum.thymeleaf.extras.cache</groupId>
-   <artifactId>thymeleaf-cache-dialect</artifactId>
-   <version>1.3-SNAPSHOT</version>
-   <name>Thymeleaf Cache Dialect</name>
-   <description>A dialect for Thymeleaf that allows you to do partial page caching.
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-Some parts of our webpage will never change during the lifetime of the application or a usersession, but the part should still be dynamic in the beginning. 
+    <modelVersion>4.0.0</modelVersion>
 
-Working with Thymeleaf 2.1.0+ (2.1.0.RELEASE and its dependencies included)</description>
-   <!--      
-      All the Javadocs for this class can be found under (http://docs.corp.topspectrum.com/dev/thymeleaf-extras-cache-dialect/1.3-SNAPSHOT/javadocs/index.html).
-   -->
+    <groupId>com.topspectrum.thymeleaf.extras.cache</groupId>
+    <artifactId>thymeleaf-cache-dialect</artifactId>
+    <version>1.3-SNAPSHOT</version>
 
-   <url>https://github.com/Antibrumm/thymeleaf-extras-cache</url>
-   <licenses>
-      <license>
-         <name>The Apache Software License, Version 2.0</name>
-         <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-         <distribution>repo</distribution>
-      </license>
-   </licenses>
+    <name>Thymeleaf Cache Dialect</name>
+    <url>https://github.com/topspectrum/thymeleaf-extras-cache-dialect</url>
+    <description>A dialect for Thymeleaf that allows you to do partial page caching.
 
-   <scm>
-      <connection>scm:git:git@github.com:TopSpectrum/${project-name}.git</connection>
-      <url>https://github.com/TopSpectrum/${project-name}.git</url>
-      <developerConnection>scm:git:git@github.com:TopSpectrum/${project-name}.git</developerConnection>
-   </scm>
+        Some parts of our webpage will never change during the lifetime of the application or a usersession, but the
+        part should still be dynamic in the beginning.
 
-   <distributionManagement>
-      <repository>
-         <id>central</id>
-         <name>Top Level Spectrum-releases</name>
-         <url>http://artifactory.topspectrum.com/artifactory/libs-release-local</url>
-      </repository>
-      <snapshotRepository>
-         <id>snapshots</id>
-         <name>Top Level Spectrum-snapshots</name>
-         <url>http://artifactory.topspectrum.com/artifactory/libs-snapshot-local</url>
-      </snapshotRepository>
-   </distributionManagement>
+        Working with Thymeleaf 2.1.0+ (2.1.0.RELEASE and its dependencies included)
 
-   <profiles>
-      <profile>
-         <id>staging</id>
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <properties>
-            <deploy-destination>54.191.162.183</deploy-destination>
-         </properties>
-      </profile>
-      <profile>
-         <id>prod</id>
-         <properties>
-            <server-ip>54.191.162.183</server-ip>            
-         </properties>
-      </profile>
-   </profiles>
+        All the Javadocs for this class can be found under
+        (http://docs.corp.topspectrum.com/dev/thymeleaf-extras-cache-dialect/${project.version}/javadocs/index.html)
+    </description>
 
-   <developers>
-      <developer>
-         <name>Martin Frey</name>
-         <roles>
-            <role>Project Admin</role>
-            <role>Lead Developer</role>
-         </roles>
-      </developer>
-      <developer>
-         <name>Michael Smyers</name>
-         <roles>
-            <role>Software Engineer</role>
-         </roles>
-      </developer>
-	  <developer>
-         <name>Gokhan Akdugan</name>
-         <roles>
-            <role>Software Engineer</role>
-         </roles>
-      </developer>
-   </developers>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-   <issueManagement>
-      <url>https://github.com/TopSpectrum/${project-name}</url>
-   </issueManagement>
+    <scm>
+        <connection>scm:git:git@github.com:TopSpectrum/${project.artifactId}</connection>
+        <url>https://github.com/TopSpectrum/${project.artifactId}.git</url>
+        <developerConnection>scm:git:git@github.com:TopSpectrum/${project.artifactId}.git</developerConnection>
+    </scm>
 
-   <properties>
-      <java-version>1.8</java-version>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project-name>thymeleaf-extras-cache-dialect</project-name>
-   </properties>
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>Top Level Spectrum-releases</name>
+            <url>http://artifactory.topspectrum.com/artifactory/libs-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Top Level Spectrum-snapshots</name>
+            <url>http://artifactory.topspectrum.com/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 
-   <dependencies>
-      <dependency>
-         <groupId>org.thymeleaf</groupId>
-         <artifactId>thymeleaf</artifactId>
-         <version>2.1.4.RELEASE</version>
-      </dependency>
-      <dependency>
-         <groupId>com.google.guava</groupId>
-         <artifactId>guava</artifactId>
-         <version>18.0</version>
-      </dependency>
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <version>4.12</version>
-         <scope>test</scope>
-      </dependency>
-   </dependencies>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <server-ip>54.191.162.183</server-ip>
+                <profile.id>dev</profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>staging</id>
+            <properties>
+                <server-ip>54.191.162.183</server-ip>
+                <profile.id>staging</profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <server-ip>54.191.162.183</server-ip>
+                <profile.id>prod</profile.id>
+            </properties>
+        </profile>
+    </profiles>
 
-   <build>
-      <extensions>
-         <extension>
-            <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-ssh</artifactId>
-            <version>2.8</version>
-         </extension>
-      </extensions>
+    <developers>
+        <developer>
+            <name>Martin Frey</name>
+            <roles>
+                <role>Project Admin</role>
+                <role>Lead Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Michael Smyers</name>
+            <roles>
+                <role>Software Engineer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Gokhan Akdugan</name>
+            <roles>
+                <role>Software Engineer</role>
+            </roles>
+        </developer>
+    </developers>
 
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.3.2</version>
-            <configuration>
-               <fork>true</fork>
-               <source>${java-version}</source>
-               <target>${java-version}</target>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-site-plugin</artifactId>
-            <version>2.2</version>
-            <configuration/>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.9.1</version>
-            <executions>
-               <execution>
-                  <id>upload-javadocs</id>
-                  <phase>deploy</phase>
-                  <goals>
-                     <goal>javadoc</goal>
-                  </goals>
-                  <configuration>
-                     <!-- add this to disable checking -->
-                     <additionalparam>-Xdoclint:none</additionalparam>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>wagon-maven-plugin</artifactId>
-            <version>1.0</version>
-            <executions>
-               <execution>
-                  <id>upload-javadoc</id>
-                  <phase>deploy</phase>
-                  <goals>
-                     <goal>upload</goal>
-                  </goals>
-                  <configuration>
-                     <serverId>ec2-user</serverId>
-                     <fromDir>${basedir}/target/site/apidocs/</fromDir>
-                     <includes>**</includes>
-                     <excludes>pom.xml</excludes>
-                     <url>scp://${deploy-destination}/../../var/www/topspectrum-docs/dev/${project-name}/1.3-SNAPSHOT/javadocs/</url>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
+    <issueManagement>
+        <url>https://github.com/TopSpectrum/${project.artifactId}</url>
+    </issueManagement>
+
+    <properties>
+        <java-version>1.8</java-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <server-ip>54.191.162.183</server-ip>
+        <deploy-destination>${server-ip}/../../var/www/topspectrum-docs/${profile.id}/${project.artifactId}/${project.version}/javadocs</deploy-destination>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>2.1.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.8</version>
+            </extension>
+        </extensions>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <fork>true</fork>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>2.2</version>
+                <configuration/>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>upload-javadocs</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <configuration>
+                            <!-- add this to disable checking -->
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>wagon-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>upload-javadoc</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>upload</goal>
+                        </goals>
+                        <configuration>
+                            <serverId>ec2-user</serverId>
+                            <fromDir>${basedir}/target/site/apidocs/</fromDir>
+                            <includes>**</includes>
+                            <excludes>pom.xml</excludes>
+                            <url>
+                                scp://${deploy-destination}
+                            </url>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
