@@ -108,7 +108,7 @@
 
         <profile.id>unknown</profile.id>
         <server-ip>54.191.162.183</server-ip>
-        <deploy-destination>${server-ip}/../../var/www/topspectrum-docs/${profile.id}/${project.artifactId}/${project.version}/javadocs</deploy-destination>
+        <deploy-destination>${server-ip}/var/www/topspectrum-docs/${profile.id}/${project.artifactId}/${project.version}/javadocs</deploy-destination>
     </properties>
 
     <dependencies>
