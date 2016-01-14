@@ -9,6 +9,11 @@ This dialect will cache the resulting output of the element it is declared on an
 
 [![Build Status](https://travis-ci.org/Antibrumm/thymeleaf-extras-with-dialect.png)](https://travis-ci.org/Antibrumm/thymeleaf-extras-with-dialect)
 
+Documentation
+-------------
+
+* http://docs.corp.topspectrum.com/dev/thymeleaf-extras-cache-dialect/{version}/javadocs/index.html
+* http://docs.corp.topspectrum.com/dev/thymeleaf-extras-cache-dialect/1.3-SNAPSHOT/javadocs/index.html
 
 Requirements
 ------------
