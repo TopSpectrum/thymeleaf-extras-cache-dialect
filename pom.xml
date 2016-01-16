@@ -49,7 +49,40 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>s3-moarepo</id>
+            <url>s3://moarepo/release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>s3-moarepo-snapshot</id>
+            <url>s3://moarepo/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <profiles>
+        <profile>
+            <id>artifactory</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <server-ip>54.191.162.183</server-ip>
+                <profile.id>artifactory</profile.id>
+            </properties>
+        </profile>
         <profile>
             <id>dev</id>
             <activation>
@@ -137,9 +170,41 @@
                 <artifactId>wagon-ssh</artifactId>
                 <version>2.8</version>
             </extension>
+            <extension>
+                <groupId>org.springframework.build.aws</groupId>
+                <artifactId>org.springframework.build.aws.maven</artifactId>
+                <version>3.0.0.RELEASE</version>
+            </extension>
         </extensions>
 
         <plugins>
+            <!--<plugin>-->
+                <!--<groupId>br.com.kibutx</groupId>-->
+                <!--<artifactId>slack-maven-plugin</artifactId>-->
+                <!--<version>1.1.0-SNAPSHOT</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>MSG inicio deploy</id>-->
+                        <!--<phase>validate</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>slackmessage</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<apiHash>hash1/hash2/hash3</apiHash>-->
+                            <!--<username>Maven</username>-->
+                            <!--&lt;!&ndash; a channel or a @devmate &ndash;&gt;-->
+                            <!--<channel>@devmate</channel>-->
+                            <!--<message>Short message</message>-->
+                            <!--<fields>-->
+                                <!--<field>-->
+                                    <!--<value>Field 1 value</value>-->
+                                <!--</field>-->
+                            <!--</fields>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
