@@ -192,7 +192,7 @@
 			      <configuration>
 			        <apiHash>/T063PFYBX/B0HUZTNDV/RtSdR9yNqUnoA1JMMRX7fxnW</apiHash>
 			        <username>${project.artifactId} ${project.version}</username>		  
-			        <channel>#gokhantest</channel>			        
+			        <channel>#dev</channel>			        
 			        <message>Documentation: </message> 
 			        <attachments>
 			        	<attachment>
