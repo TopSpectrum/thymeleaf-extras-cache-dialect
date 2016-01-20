@@ -155,8 +155,6 @@
     </properties>
 
     <build>
-        <finalName>${project.name}-${project.version}</finalName>
-
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
