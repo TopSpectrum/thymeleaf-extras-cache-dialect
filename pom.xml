@@ -54,6 +54,7 @@
             <name>plugins-release</name>
             <url>http://artifactory.topspectrum.com/artifactory/plugins-release</url>
         </pluginRepository>
+        
         <pluginRepository>
             <snapshots/>
             <id>snapshots</id>
@@ -71,6 +72,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
+
         <pluginRepository>
             <id>s3-moarepo-snapshot</id>
             <url>s3://moarepo/snapshot</url>
