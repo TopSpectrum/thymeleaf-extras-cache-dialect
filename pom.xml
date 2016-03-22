@@ -253,8 +253,8 @@
                                     <text>For more information, please look at the documentation:</text>
                                 </attachment>
                                 <attachment>
-                                    <title>http://docs.corp.topspectrum.com/dev/${project.artifactId}/${project.version}/javadocs/index.html</title>
-                                    <title_link>http://docs.corp.topspectrum.com/dev/${project.artifactId}/${project.version}/javadocs/index.html</title_link>
+                                    <title>http://docs.corp.topspectrum.com/${profile.id}/${project.artifactId}/${project.version}/javadocs/index.html</title>
+                                    <title_link>http://docs.corp.topspectrum.com/${profile.id}/${project.artifactId}/${project.version}/javadocs/index.html</title_link>
                                 </attachment>
                             </attachments>
                         </configuration>
