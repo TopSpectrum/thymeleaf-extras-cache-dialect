@@ -293,14 +293,9 @@ public class ExpressionSupport {
 
 	public static Integer defaultInteger(Integer key) {
 		if (null == key) {
-			return Integer.valueOf(0);
+			return 0;
 		}
 
 		return key;
-	}
-
-
-	public static Long optDateOrLong(String s) {
-		return null;
 	}
 }
